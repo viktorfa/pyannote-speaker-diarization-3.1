@@ -81,9 +81,9 @@ curl --location '<your_inference_url>' \
                     "inputs": [
                       {
                         "data": [
-                          "What is an AI?"
+                          "https://github.com/rbgo404/Files/raw/main/TunePocket-Corporate-Logo-4-Sec-Preview.mp3"
                         ],
-                        "name": "prompt",
+                        "name": "audio_url",
                         "shape": [
                           1
                         ],
