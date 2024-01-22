@@ -1,6 +1,7 @@
-# Dolphin-2.5-mixtral-8x7b-GPTQ
+# Pyannote: Speaker-diarization-3.1
 
-This Dolphin is really good at coding, it has been trained with a lot of coding data. It is very obedient but it is not DPO tuned - so you still might need to encourage it in the system prompt.
+Speaker-diarization-3.1 is a pipeline for labeling audio or video recordings with classes that correspond to speaker identity. It is an open-source pipeline provided by Hugging Face, and it is based on the pyannote.audio library. The 3.1 version of the pipeline runs speaker segmentation and embedding in pure PyTorch, removing the problematic use of onnxruntime present in the previous version. The pipeline has been benchmarked on a large collection of datasets, and its performance has been evaluated using various metrics.
+
 
 ---
 ## Prerequisites
@@ -37,9 +38,9 @@ The following is a sample Input and Output JSON for this model which you can use
     "inputs": [
       {
         "data": [
-          "What is an AI?"
+          "https://github.com/rbgo404/Files/raw/main/TunePocket-Corporate-Logo-4-Sec-Preview.mp3"
         ],
-        "name": "prompt",
+        "name": "audio_url",
         "shape": [
           1
         ],
@@ -57,7 +58,7 @@ The following is a sample Input and Output JSON for this model which you can use
         "data": [
           "data"
         ],
-        "name": "generated_result",
+        "name": "generated_data",
         "shape": [
           1
         ],
