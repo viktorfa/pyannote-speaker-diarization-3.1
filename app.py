@@ -48,20 +48,11 @@ class InferlessPythonModel:
             else:
                 speakers[speaker]["utterances"] += 1
             
-
-            
-
             segments.append({
                 "speaker": speaker,
                 "start": start_ms,
                 "end": end_ms
             })
-
-
-        
-            
-        
-        
             
         return json.dumps({"generated_data":{"result": {"segments": segments, "speakers": speakers, "n_speakers": len(speakers)}}})
 
