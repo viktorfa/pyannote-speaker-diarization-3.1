@@ -1,31 +1,21 @@
-import base64
-import wave
 import urllib.request
 from pyannote.audio import Pipeline
 import torch
-from pydub import AudioSegment
+from pathlib import Path
 
 
 class InferlessPythonModel:
     def download_file(self,url):
-        filename = "file.mp3"
+        file_path = Path(__file__).parent / url.split("/")[-1]
+        
         try:
-            urllib.request.urlretrieve(url, filename)
-            print(f"File {filename} downloaded successfully.")
+            urllib.request.urlretrieve(url, str(file_path))
+            print(f"File {str(file_path)} downloaded successfully.")
         except Exception as e:
             print(f"Failed to download the file. Error: {e}")
         
-        return filename
+        return str(file_path)
     
-    def wav_to_base64(self,file_path):
-        with open(file_path, 'rb') as wav_file:
-            # Read the content of the WAV file
-            wav_content = wav_file.read()
-    
-            # Encode the content as base64
-            base64_encoded = base64.b64encode(wav_content).decode('utf-8')
-    
-        return base64_encoded
         
     def initialize(self):
         self.pipeline = Pipeline.from_pretrained(
@@ -37,30 +27,42 @@ class InferlessPythonModel:
         
     def infer(self, inputs):
         audio_url = inputs["audio_url"]
-        file_name = self.download_file(audio_url)
-        diarization = self.pipeline(file_name)
+        num_speakers = inputs.get("num_speakers")
+        min_speakers = inputs.get("min_speakers")
+        max_speakers = inputs.get("max_speakers")
+        
+        file_path = self.download_file(audio_url)
+        diarization = self.pipeline(str(file_path), num_speakers=num_speakers,  min_speakers=min_speakers, max_speakers=max_speakers)
 
-        audio = AudioSegment.from_file(file_name,format = "mp3")
-        speaker_segments_audio = {}
-        
-        audio_data = []
-        
+        segments = []
+
+        speakers = {}
+       
         for turn, _, speaker in diarization.itertracks(yield_label=True):
             start_ms = int(turn.start * 1000)  
             end_ms = int(turn.end * 1000)
-            segment = audio[start_ms:end_ms]
-        
-            if speaker in speaker_segments_audio:
-                speaker_segments_audio[speaker] += segment
+
+            if speaker not in speakers.keys():
+                speakers[speaker] = {"label": speaker, "utterances": 1}
             else:
-                speaker_segments_audio[speaker] = segment
-        
-        for speaker, segment in speaker_segments_audio.items():
-            segment.export(f"{speaker}.wav", format="wav")
-            base64_data = self.wav_to_base64(f"{speaker}.wav")
-            audio_data.append(base64_data)
+                speakers[speaker]["utterances"] += 1
             
-        return {"generated_data":audio_data}
+
+            
+
+            segments.append({
+                "speaker": speaker,
+                "start": start_ms,
+                "end": end_ms
+            })
+
+
+        
+            
+        
+        
+            
+        return {"generated_data":{"result": {"segments": segments, "speakers": speakers, "n_speakers": len(speakers)}}}
 
 
     def finalize(self):
