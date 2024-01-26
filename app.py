@@ -2,6 +2,7 @@ import urllib.request
 from pyannote.audio import Pipeline
 import torch
 from pathlib import Path
+import json
 
 
 class InferlessPythonModel:
@@ -62,7 +63,7 @@ class InferlessPythonModel:
         
         
             
-        return {"generated_data":{"result": {"segments": segments, "speakers": speakers, "n_speakers": len(speakers)}}}
+        return json.dumps({"generated_data":{"result": {"segments": segments, "speakers": speakers, "n_speakers": len(speakers)}}})
 
 
     def finalize(self):
