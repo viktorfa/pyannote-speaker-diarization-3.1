@@ -3,11 +3,12 @@ from pyannote.audio import Pipeline
 import torch
 from pathlib import Path
 import json
+import tempfile
 
 
 class InferlessPythonModel:
     def download_file(self, url):
-        file_path = Path(__file__).parent / url.split("/")[-1]
+        file_path = Path(tempfile.mkdtemp()) / url.split("/")[-1]
 
         try:
             urllib.request.urlretrieve(url, str(file_path))
