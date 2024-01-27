@@ -24,7 +24,7 @@ class InferlessPythonModel:
             use_auth_token="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",
         )
 
-        self.pipeline.to(torch.device("cpu"))
+        self.pipeline.to(torch.device("cuda"))
 
     def infer(self, inputs):
         audio_url: str = inputs["audio_url"]
