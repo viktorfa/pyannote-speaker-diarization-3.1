@@ -28,9 +28,12 @@ class InferlessPythonModel:
 
     def infer(self, inputs):
         audio_url: str = inputs["audio_url"]
-        num_speakers = inputs.get("num_speakers")
-        min_speakers = inputs.get("min_speakers")
-        max_speakers = inputs.get("max_speakers")
+        num_speakers = inputs.get("num_speakers") or None
+        min_speakers = inputs.get("min_speakers") or None
+        max_speakers = inputs.get("max_speakers") or None
+
+        print("num_speakers")
+        print(num_speakers)
 
         file_path = self.download_file(audio_url)
         diarization = self.pipeline(
