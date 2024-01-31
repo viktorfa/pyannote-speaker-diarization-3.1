@@ -8,21 +8,21 @@ INPUT_SCHEMA = {
         ],
     },
     "num_speakers": {
-        "datatype": "BYTES",
+        "datatype": "STRING",
         "required": False,
-        "example": [2],
+        "example": ["2"],
         "shape": [1],
     },
     "min_speakers": {
-        "datatype": "BYTES",
+        "datatype": "STRING",
         "required": False,
-        "example": [1],
+        "example": ["1"],
         "shape": [1],
     },
     "max_speakers": {
-        "datatype": "BYTES",
+        "datatype": "STRING",
         "required": False,
-        "example": [3],
+        "example": ["3"],
         "shape": [1],
     },
     "webhook_url": {
