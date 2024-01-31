@@ -85,22 +85,20 @@ class InferlessPythonModel:
 
             segments.append({"speaker": speaker, "start": start_ms, "end": end_ms})
 
-        result = (
-            {
-                "status": "COMPLETED",
-                "output": {
-                    "segments": segments,
-                    "speakers": speakers,
-                    "n_speakers": len(speakers),
-                },
-                "input": {
-                    "audio_url": audio_url,
-                    "num_speakers": num_speakers,
-                    "min_speakers": min_speakers,
-                    "max_speakers": max_speakers,
-                },
+        result = {
+            "status": "COMPLETED",
+            "output": {
+                "segments": segments,
+                "speakers": speakers,
+                "n_speakers": len(speakers),
             },
-        )
+            "input": {
+                "audio_url": audio_url,
+                "num_speakers": num_speakers,
+                "min_speakers": min_speakers,
+                "max_speakers": max_speakers,
+            },
+        }
 
         if webhook_url:
             requests.post(webhook_url, json=result)
