@@ -10,25 +10,25 @@ INPUT_SCHEMA = {
     "num_speakers": {
         "datatype": "UINT8",
         "required": False,
-        "example": 2,
+        "example": [2],
         "shape": [1],
     },
     "min_speakers": {
         "datatype": "UINT8",
         "required": False,
-        "example": 1,
+        "example": [1],
         "shape": [1],
     },
     "max_speakers": {
         "datatype": "UINT8",
         "required": False,
-        "example": 3,
+        "example": [3],
         "shape": [1],
     },
     "webhook_url": {
         "datatype": "STRING",
         "required": False,
-        "example": "https://api.webhook.site",
+        "example": ["https://api.webhook.site"],
         "shape": [1],
     },
 }
