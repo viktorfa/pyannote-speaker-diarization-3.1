@@ -25,4 +25,10 @@ INPUT_SCHEMA = {
         "example": 3,
         "shape": [1],
     },
+    "webhook_url": {
+        "datatype": "STRING",
+        "required": False,
+        "example": "https://api.webhook.site",
+        "shape": [1],
+    },
 }

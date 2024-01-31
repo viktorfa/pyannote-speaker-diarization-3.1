@@ -4,6 +4,8 @@ import torch
 from pathlib import Path
 import json
 import tempfile
+import urllib.parse
+import requests
 
 
 class InferlessPythonModel:
@@ -32,6 +34,12 @@ class InferlessPythonModel:
         num_speakers = inputs.get("num_speakers") or None
         min_speakers = inputs.get("min_speakers") or None
         max_speakers = inputs.get("max_speakers") or None
+        webhook_url = inputs.get("webhook_url") or None
+
+        if webhook_url:
+            parsed_url = urllib.parse.urlparse(webhook_url)
+            if not parsed_url.scheme:
+                raise ValueError(f"Invalid webhook URL {webhook_url}")
 
         print("num_speakers")
         print(num_speakers)
@@ -59,23 +67,26 @@ class InferlessPythonModel:
 
             segments.append({"speaker": speaker, "start": start_ms, "end": end_ms})
 
-        return {
-            "result": json.dumps(
-                {
-                    "generated_data": {
-                        "segments": segments,
-                        "speakers": speakers,
-                        "n_speakers": len(speakers),
-                    },
-                    "input": {
-                        "audio_url": audio_url,
-                        "num_speakers": num_speakers,
-                        "min_speakers": min_speakers,
-                        "max_speakers": max_speakers,
-                    },
+        result = (
+            {
+                "generated_data": {
+                    "segments": segments,
+                    "speakers": speakers,
+                    "n_speakers": len(speakers),
                 },
-            )
-        }
+                "input": {
+                    "audio_url": audio_url,
+                    "num_speakers": num_speakers,
+                    "min_speakers": min_speakers,
+                    "max_speakers": max_speakers,
+                },
+            },
+        )
+
+        if webhook_url:
+            requests.post(webhook_url, json={"result": result})
+
+        return {"result": json.dumps(result)}
 
     def finalize(self):
         pass
