@@ -69,7 +69,7 @@ class InferlessPythonModel:
 
         result = (
             {
-                "generated_data": {
+                "output": {
                     "segments": segments,
                     "speakers": speakers,
                     "n_speakers": len(speakers),

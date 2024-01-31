@@ -8,19 +8,19 @@ INPUT_SCHEMA = {
         ],
     },
     "num_speakers": {
-        "datatype": "UINT8",
+        "datatype": "BYTES",
         "required": False,
         "example": [2],
         "shape": [1],
     },
     "min_speakers": {
-        "datatype": "UINT8",
+        "datatype": "BYTES",
         "required": False,
         "example": [1],
         "shape": [1],
     },
     "max_speakers": {
-        "datatype": "UINT8",
+        "datatype": "BYTES",
         "required": False,
         "example": [3],
         "shape": [1],
