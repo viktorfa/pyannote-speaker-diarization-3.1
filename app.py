@@ -53,9 +53,7 @@ class InferlessPythonModel:
         try:
             file_path = self.download_file(audio_url)
             print(
-                f"downloaded file of size {
-                file_path.stat().st_size / (1024 * 1024)
-            } MB."
+                f"downloaded file of size {file_path.stat().st_size / (1024 * 1024)} MB."
             )
 
             diarization = self.pipeline(
